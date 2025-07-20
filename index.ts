@@ -2,7 +2,6 @@ import figlet from "figlet";
 import { getUser, insertUser, updateAccessToken } from "./db.ts";
 import jwt from "jsonwebtoken";
 import { password } from "bun";
-const SECRET = "nosecret";
 
 interface User {
   id: string;
@@ -18,7 +17,7 @@ const server = Bun.serve({
       POST: async req => {
         const body: Omit<User, "id" | "accessToken"> = await req.json();
         insertUser.run(body.email, body.password);
-        const token = jwt.sign({ email: body.email }, SECRET);
+        const token = jwt.sign({ email: body.email }, process.env.JWT_SECRET as string);
         updateAccessToken.run(token, body.email);
         const user = getUser.get(body.email);
         return Response.json({ message: "Success", data: user });
