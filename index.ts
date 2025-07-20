@@ -15,7 +15,7 @@ const server = Bun.serve({
   routes: {
     "/register": {
       POST: async req => {
-        const body: Omit<User, "id" | "accessToken"> = await req.json();
+        const body: Omit<User, "id" | "accessToken"> = await req.json() as User;
         insertUser.run(body.email, body.password);
         const token = jwt.sign({ email: body.email }, process.env.JWT_SECRET as string);
         updateAccessToken.run(token, body.email);
