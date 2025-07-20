@@ -32,6 +32,10 @@ const server = Bun.serve({
   fetch(req) {
     return new Response("Welocme to SRI Auth");
   },
+  error(error) {
+    console.log(`Error: ${error}`);
+    return Response.json({ message: "Server Error", data: error.message });
+  }
 });
 
 console.log(figlet.textSync("SRI Auth"));
