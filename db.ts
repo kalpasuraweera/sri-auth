@@ -9,13 +9,16 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE,
-    password TEXT);
+    password TEXT,
+    accessToken TEXT
+  );
 `);
 
-const insertUser = db.query("INSERT INTO users (email, password) VALUES (?,?)");
+export const insertUser = db.query("INSERT INTO users (email, password) VALUES (?,?)");
 //insertUser.run("kalpa@gmail.com", "nopass");
 
-const getUser = db.query("SELECT * FROM users WHERE email=?");
-const user = getUser.get("kalpa@gmail.com");
+export const updateAccessToken = db.query("UPDATE users SET accessToken = ? WHERE email = ?;");
 
-console.log(user);
+export const getUser = db.query("SELECT * FROM users WHERE email=?");
+//const user = getUser.get("kalpa@gmail.com");
+
